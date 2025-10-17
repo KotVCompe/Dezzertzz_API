@@ -76,9 +76,9 @@ AWS_BUCKET_NAME=your-bucket-name
 //  Twilio (SMS уведомления)
 TWILIO_ACCOUNT_SID=your-twilio-account-sid
 TWILIO_AUTH_TOKEN=your-twilio-auth-token
-TWILIO_PHONE_NUMBER=your-twilio-phone-number ```
+TWILIO_PHONE_NUMBER=your-twilio-phone-number
 
-### 4. Настройка базы данных
+``` ### 4. Настройка базы данных
 Убедитесь, что ваша база данных PostgreSQL запущена.
 
 Выполните миграции Prisma для создания схемы БД:
