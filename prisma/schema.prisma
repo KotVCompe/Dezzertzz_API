@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(100)
+  description String?
+  image_url String?  @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  products Product[]
+
+  @@map("categories")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  password_hash String @db.VarChar(255)
+  first_name String   @db.VarChar(100)
+  phone_number String? @db.VarChar(20)
+  avatar_url String? @db.VarChar(255)
+  email_verified Boolean @default(false)
+  role      String   @default("customer") // customer, admin, manager
+
+  reset_password_token String?
+  reset_password_expires DateTime?
+
+  email_verification_token String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  profile UserProfile?
+  addresses UserAddress[]
+  orders Order[]
+  auth_tokens AuthToken[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id        Int      @id @default(autoincrement())
+  user_id   Int      @unique
+  date_of_birth DateTime?
+  preferred_notifications Boolean @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model UserAddress {
+  id        Int      @id @default(autoincrement())
+  user_id   Int
+  title     String   @default("Дом") @db.VarChar(50)
+  street    String   @db.VarChar(255)
+  house_number String @db.VarChar(20)
+  apartment_number String? @db.VarChar(20)
+  floor     Int?
+  entrance  String?  @db.VarChar(10)
+  doorcode  String?  @db.VarChar(20)
+  comment   String?
+  is_primary Boolean @default(false)
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("user_addresses")
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  description String?
+  full_description String?
+  price     Decimal  @db.Decimal(10, 2)
+  category_id Int
+  status    String   @default("active") // active, out_of_stock, disabled
+  weight_grams Int?
+  volume_ml Int?
+  calories  Int?
+  ingredients String[]
+  tags      String[]
+  sort_order Int @default(0)
+  purchase_count Int @default(0)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  category Category @relation(fields: [category_id], references: [id], onDelete: Restrict)
+  images ProductImage[]
+  order_items OrderItem[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  product_id Int
+  image_url String   @db.VarChar(255)
+  alt_text  String?  @db.VarChar(255)
+  sort_order Int @default(0)
+  created_at DateTime @default(now())
+
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  order_number String @unique @db.VarChar(50)
+  user_id   Int
+  status    String   @default("pending") // pending, confirmed, preparing, ready_for_delivery, out_for_delivery, delivered, cancelled
+  total_amount Decimal @db.Decimal(10, 2)
+
+  delivery_address_street String @db.VarChar(255)
+  delivery_address_house String @db.VarChar(20)
+  delivery_address_apartment String? @db.VarChar(20)
+  delivery_address_floor Int?
+  delivery_address_entrance String? @db.VarChar(10)
+  delivery_address_doorcode String? @db.VarChar(20)
+  delivery_comment String?
+
+  payment_method String // card, cash
+  payment_status String @default("pending") // pending, processing, paid, failed, refunded
+  payment_id String?
+
+  tracking_url String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  order_id  Int
+  product_id Int
+  quantity  Int
+  unit_price Decimal @db.Decimal(10, 2)
+  item_total Decimal @db.Decimal(10, 2)
+
+  created_at DateTime @default(now())
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Restrict)
+
+  @@map("order_items")
+}
+
+model AuthToken {
+  id        Int      @id @default(autoincrement())
+  user_id   Int
+  token     String   @unique @db.VarChar(500)
+  type      String   // refresh, blacklist
+  expires_at DateTime
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("auth_tokens")
+}
+
+model TelegramSubscriber {
+  id        Int      @id @default(autoincrement())
+  chat_id   BigInt   @unique
+  first_name String?
+  username  String?
+  is_active Boolean @default(true)
+  subscribed_at DateTime @default(now())
+
+  @@map("telegram_subscribers")
+}
