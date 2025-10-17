@@ -1,4 +1,4 @@
-```# Dezzertzz API 🍰
+# Dezzertzz API 🍰
 
 Бэкенд-часть для интернет-магазина десертов. REST API предоставляет функционал для аутентификации пользователей, управления каталогом товаров, обработки заказов и онлайн-платежей.
 
@@ -21,7 +21,7 @@ git clone https://github.com/your-username/Dezzertzz_API.git
 cd Dezzertzz_API
 
 2. Установка зависимостей
-```bash
+bash
 npm install
 3. Настройка переменных окружения
 Создайте файл .env в корневой директории проекта.
@@ -30,7 +30,7 @@ npm install
 
 Пример файла .env:
 
-env
+```env
 # Сервер
 NODE_ENV=development
 PORT=5000
@@ -77,7 +77,8 @@ AWS_BUCKET_NAME=your-bucket-name
 # Twilio (SMS уведомления)
 TWILIO_ACCOUNT_SID=your-twilio-account-sid
 TWILIO_AUTH_TOKEN=your-twilio-auth-token
-TWILIO_PHONE_NUMBER=your-twilio-phone-number
+TWILIO_PHONE_NUMBER=your-twilio-phone-number ```
+
 4. Настройка базы данных
 Убедитесь, что ваша база данных PostgreSQL запущена.
 
