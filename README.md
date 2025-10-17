@@ -16,10 +16,11 @@
 
 ### 1. Клонирование репозитория
 
-```bash
+bash
 git clone https://github.com/your-username/Dezzertzz_API.git
 cd Dezzertzz_API
-### 2. Установка зависимостей
+
+2. Установка зависимостей
 bash
 npm install
 3. Настройка переменных окружения
