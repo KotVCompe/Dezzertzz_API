@@ -16,7 +16,7 @@
 
 ### 1. Клонирование репозитория
 
-git clone https://github.com/your-username/Dezzertzz_API.git
+git clone https://github.com/KotVCompe/Dezzertzz_API.git
 cd Dezzertzz_API
 
 ### 2. Установка зависимостей
