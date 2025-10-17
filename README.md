@@ -30,7 +30,7 @@ npm install
 Пример файла .env:
 
 env
-// Сервер
+``` // Сервер
 NODE_ENV=development
 PORT=5000
 API_URL=http://localhost:5000/
