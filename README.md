@@ -30,7 +30,8 @@ npm install
 Пример файла .env:
 
 env
-``` // Сервер
+```
+// Сервер
 NODE_ENV=development
 PORT=5000
 API_URL=http://localhost:5000/
@@ -77,8 +78,8 @@ AWS_BUCKET_NAME=your-bucket-name
 TWILIO_ACCOUNT_SID=your-twilio-account-sid
 TWILIO_AUTH_TOKEN=your-twilio-auth-token
 TWILIO_PHONE_NUMBER=your-twilio-phone-number
-
-``` ### 4. Настройка базы данных
+```
+### 4. Настройка базы данных
 Убедитесь, что ваша база данных PostgreSQL запущена.
 
 Выполните миграции Prisma для создания схемы БД:
